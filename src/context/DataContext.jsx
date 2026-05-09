@@ -9,6 +9,12 @@ const DataContext = createContext(null);
  * Loads portfolio data from localStorage, falling back to defaultData.
  */
 function loadData() {
+  // If we are in production, always use the file-based data to ensure 
+  // the live site matches the pushed code instantly.
+  if (import.meta.env.PROD) {
+    return { ...defaultData };
+  }
+
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
