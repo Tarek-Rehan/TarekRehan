@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Alex Mercer — Communications Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:       #04060f;
+  --bg2:      #07091a;
+  --amber:    #ffab00;
+  --amber2:   #ff7c00;
+  --blue:     #00b8ff;
+  --blue2:    #004aff;
+  --green:    #00ff9d;
+  --dim:      rgba(255,171,0,0.12);
+  --dim-b:    rgba(0,184,255,0.10);
+  --text:     #e8eaf6;
+  --muted:    rgba(232,234,246,0.42);
+  --line:     rgba(255,171,0,0.18);
+  --font-h:   'Orbitron', sans-serif;
+  --font-m:   'IBM Plex Mono', monospace;
+  --font-b:   'IBM Plex Sans', sans-serif;
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+html{scroll-behavior:smooth;font-size:16px;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-b);
+  cursor:none;
+  overflow-x:hidden;
+}
+
+/* ── CURSOR ───────────────────────────────────────── */
+#cur{
+  position:fixed;pointer-events:none;z-index:9999;
+  width:40px;height:40px;
+  transform:translate(-50%,-50%);
+  transition:width .15s,height .15s;
+}
+#cur::before,#cur::after{
+  content:'';position:absolute;background:var(--amber);
+}
+#cur::before{top:50%;left:0;width:100%;height:1px;margin-top:-.5px;opacity:.7;}
+#cur::after{left:50%;top:0;height:100%;width:1px;margin-left:-.5px;opacity:.7;}
+#cur .dot{
+  position:absolute;top:50%;left:50%;
+  width:5px;height:5px;
+  background:var(--amber);
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 8px 3px rgba(255,171,0,.6);
+}
+#cur .ring{
+  position:absolute;inset:0;
+  border:1px solid rgba(255,171,0,.35);
+  border-radius:50%;
+  animation:spin-ring 4s linear infinite;
+}
+@keyframes spin-ring{to{transform:rotate(360deg);}}
+
+/* ── CANVAS BG ────────────────────────────────────── */
+#bgc{position:fixed;inset:0;z-index:0;}
+
+/* ── NAV ──────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;
+  z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 56px;
+  background:linear-gradient(to bottom,rgba(4,6,15,.95),transparent);
+  backdrop-filter:blur(2px);
+}
+.nav-logo{
+  font-family:var(--font-h);
+  font-size:13px;font-weight:700;letter-spacing:.22em;
+  color:var(--amber);text-decoration:none;
+}
+.nav-logo span{color:var(--blue);}
+.nav-links{display:flex;gap:36px;list-style:none;}
+.nav-links a{
+  font-family:var(--font-m);font-size:11px;letter-spacing:.18em;
+  color:var(--muted);text-decoration:none;text-transform:uppercase;
+  transition:color .2s;position:relative;
+}
+.nav-links a::after{
+  content:'';position:absolute;left:0;bottom:-3px;
+  width:0;height:1px;background:var(--amber);
+  transition:width .25s;
+}
+.nav-links a:hover{color:var(--amber);}
+.nav-links a:hover::after{width:100%;}
+
+/* ── SECTIONS SHARED ─────────────────────────────── */
+section{position:relative;z-index:1;}
+
+/* ── HERO ─────────────────────────────────────────── */
+#hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
+  padding:0 56px 0 56px;
+  overflow:hidden;
+}
+.hero-tag{
+  font-family:var(--font-m);font-size:11px;letter-spacing:.28em;
+  color:var(--amber);text-transform:uppercase;
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:24px;
+  animation:fadein .8s ease both;
+}
+.hero-tag::before{content:'';width:36px;height:1px;background:var(--amber);display:block;}
+.hero-name{
+  font-family:var(--font-h);
+  font-size:clamp(3rem,7vw,6.5rem);
+  font-weight:900;line-height:1;letter-spacing:-.01em;
+  margin-bottom:12px;
+  animation:fadein .9s .1s ease both;
+}
+.hero-name em{
+  display:block;font-style:normal;
+  background:linear-gradient(90deg,var(--amber),var(--amber2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-title{
+  font-family:var(--font-h);font-size:clamp(1rem,2.2vw,1.5rem);
+  font-weight:400;letter-spacing:.18em;color:var(--blue);
+  margin-bottom:32px;
+  animation:fadein .9s .2s ease both;
+}
+.hero-desc{
+  max-width:520px;font-size:15px;line-height:1.8;color:var(--muted);
+  margin-bottom:48px;
+  animation:fadein .9s .3s ease both;
+}
+.hero-btns{
+  display:flex;gap:20px;
+  animation:fadein .9s .4s ease both;
+}
+.btn-primary{
+  font-family:var(--font-m);font-size:12px;letter-spacing:.18em;
+  text-transform:uppercase;text-decoration:none;
+  padding:14px 32px;
+  border:1px solid var(--amber);
+  color:var(--bg);background:var(--amber);
+  transition:background .2s,box-shadow .2s;
+  clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));
+}
+.btn-primary:hover{background:var(--amber2);box-shadow:0 0 28px rgba(255,171,0,.35);}
+.btn-ghost{
+  font-family:var(--font-m);font-size:12px;letter-spacing:.18em;
+  text-transform:uppercase;text-decoration:none;
+  padding:14px 32px;
+  border:1px solid rgba(0,184,255,.45);
+  color:var(--blue);background:transparent;
+  transition:background .2s,border-color .2s;
+  clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));
+}
+.btn-ghost:hover{background:rgba(0,184,255,.08);border-color:var(--blue);}
+
+/* Oscilloscope strip below hero */
+#oscillo{
+  position:absolute;bottom:52px;left:0;right:0;
+  display:flex;align-items:center;padding:0 56px;gap:16px;
+  animation:fadein 1.2s .6s ease both;
+}
+.osc-label{
+  font-family:var(--font-m);font-size:10px;letter-spacing:.2em;color:var(--amber);opacity:.6;
+  white-space:nowrap;
+}
+#osc-canvas{flex:1;height:52px;}
+
+/* ── DIVIDER ─────────────────────────────────────── */
+.divider{
+  width:100%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--amber),transparent);
+  opacity:.25;margin:0;
+}
+
+/* ── SECTION WRAPPER ─────────────────────────────── */
+.sec-wrap{
+  max-width:1200px;margin:0 auto;
+  padding:110px 56px;
+}
+.sec-label{
+  font-family:var(--font-m);font-size:11px;letter-spacing:.3em;
+  color:var(--amber);text-transform:uppercase;
+  display:flex;align-items:center;gap:14px;margin-bottom:48px;
+}
+.sec-label::before{content:'';width:28px;height:1px;background:var(--amber);}
+.sec-label .num{color:rgba(255,171,0,.38);margin-right:4px;}
+
+/* ── ABOUT ───────────────────────────────────────── */
+#about .grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;
+}
+.about-text h2{
+  font-family:var(--font-h);font-size:clamp(1.8rem,3.5vw,2.8rem);
+  font-weight:700;line-height:1.15;margin-bottom:28px;
+}
+.about-text h2 span{color:var(--amber);}
+.about-text p{
+  font-size:15px;line-height:1.85;color:var(--muted);margin-bottom:20px;
+}
+.stat-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:2px;
+}
+.stat-box{
+  padding:28px 24px;background:rgba(255,171,0,.04);
+  border:1px solid var(--line);
+  position:relative;overflow:hidden;
+  transition:background .2s;
+}
+.stat-box:hover{background:rgba(255,171,0,.08);}
+.stat-box::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--amber),transparent);
+}
+.stat-num{
+  font-family:var(--font-h);font-size:2.4rem;font-weight:900;
+  color:var(--amber);line-height:1;margin-bottom:6px;
+}
+.stat-desc{
+  font-family:var(--font-m);font-size:10px;letter-spacing:.16em;
+  color:var(--muted);text-transform:uppercase;
+}
+
+/* ── SKILLS ──────────────────────────────────────── */
+#skills{background:var(--bg2);}
+.skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;}
+.skill-group h3{
+  font-family:var(--font-h);font-size:13px;letter-spacing:.18em;
+  color:var(--blue);margin-bottom:28px;text-transform:uppercase;
+}
+.skill-item{margin-bottom:22px;}
+.skill-head{
+  display:flex;justify-content:space-between;align-items:baseline;
+  margin-bottom:8px;
+}
+.skill-name{
+  font-family:var(--font-m);font-size:12px;letter-spacing:.12em;color:var(--text);
+}
+.skill-pct{
+  font-family:var(--font-m);font-size:11px;color:var(--amber);
+}
+.skill-bar{
+  height:3px;background:rgba(255,255,255,.06);position:relative;overflow:hidden;
+}
+.skill-fill{
+  height:100%;background:linear-gradient(90deg,var(--amber2),var(--amber));
+  width:0;transition:width 1.4s cubic-bezier(.16,1,.3,1);
+  position:relative;
+}
+.skill-fill::after{
+  content:'';position:absolute;right:0;top:-2px;
+  width:5px;height:7px;background:var(--amber);
+  box-shadow:0 0 8px 3px rgba(255,171,0,.5);
+}
+
+/* spectrum viz */
+.spectrum{
+  display:flex;align-items:flex-end;gap:3px;height:80px;
+  margin-top:40px;
+}
+.spec-bar{
+  flex:1;background:rgba(0,184,255,.15);
+  border-top:1px solid rgba(0,184,255,.6);
+  transition:height .4s ease;
+  animation:specpulse 1.8s ease-in-out infinite;
+}
+@keyframes specpulse{
+  0%,100%{opacity:.5;}50%{opacity:1;}
+}
+
+/* ── PROJECTS ────────────────────────────────────── */
+.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.proj-card{
+  padding:36px 30px;background:rgba(7,9,26,.7);
+  border:1px solid rgba(255,171,0,.1);
+  position:relative;overflow:hidden;
+  transition:transform .25s,border-color .25s,background .25s;
+}
+.proj-card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(255,171,0,.4);
+  background:rgba(255,171,0,.04);
+}
+.proj-card::before{
+  content:'';position:absolute;top:0;left:0;width:100%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--amber),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.proj-card:hover::before{opacity:1;}
+.proj-freq{
+  font-family:var(--font-m);font-size:10px;letter-spacing:.22em;
+  color:var(--blue);margin-bottom:20px;
+  display:flex;align-items:center;gap:8px;
+}
+.proj-freq::before{
+  content:'';width:8px;height:8px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 8px 2px rgba(0,255,157,.5);
+  animation:blink 2s ease-in-out infinite;
+}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+.proj-name{
+  font-family:var(--font-h);font-size:1rem;font-weight:600;
+  letter-spacing:.06em;margin-bottom:14px;line-height:1.3;
+}
+.proj-desc{
+  font-size:13.5px;line-height:1.7;color:var(--muted);margin-bottom:24px;
+}
+.proj-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.tag{
+  font-family:var(--font-m);font-size:10px;letter-spacing:.12em;
+  padding:4px 10px;border:1px solid rgba(0,184,255,.25);
+  color:var(--blue);text-transform:uppercase;
+}
+
+/* ── EXPERIENCE TIMELINE ─────────────────────────── */
+#exp{background:var(--bg2);}
+.timeline{position:relative;padding-left:36px;}
+.timeline::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:1px;background:linear-gradient(to bottom,var(--amber),transparent);
+  opacity:.3;
+}
+.tl-item{
+  position:relative;padding:0 0 52px 36px;
+}
+.tl-item::before{
+  content:'';position:absolute;left:-5px;top:6px;
+  width:11px;height:11px;border-radius:50%;
+  background:var(--amber);
+  box-shadow:0 0 12px 4px rgba(255,171,0,.4);
+}
+.tl-date{
+  font-family:var(--font-m);font-size:10px;letter-spacing:.2em;
+  color:var(--amber);text-transform:uppercase;margin-bottom:10px;
+}
+.tl-role{
+  font-family:var(--font-h);font-size:1.05rem;font-weight:600;
+  letter-spacing:.06em;margin-bottom:4px;
+}
+.tl-company{
+  font-family:var(--font-m);font-size:12px;color:var(--blue);
+  letter-spacing:.12em;margin-bottom:14px;
+}
+.tl-desc{font-size:14px;line-height:1.75;color:var(--muted);max-width:640px;}
+
+/* ── CONTACT ─────────────────────────────────────── */
+#contact{text-align:center;}
+#contact .sec-label{justify-content:center;}
+#contact .sec-label::before{display:none;}
+.contact-head{
+  font-family:var(--font-h);font-size:clamp(2rem,4.5vw,3.6rem);
+  font-weight:900;margin-bottom:20px;
+}
+.contact-head span{color:var(--amber);}
+.contact-sub{
+  font-family:var(--font-m);font-size:13px;letter-spacing:.14em;
+  color:var(--muted);max-width:480px;margin:0 auto 52px;line-height:1.8;
+}
+.contact-grid{
+  display:flex;justify-content:center;flex-wrap:wrap;gap:16px;
+  margin-bottom:64px;
+}
+.contact-link{
+  font-family:var(--font-m);font-size:12px;letter-spacing:.16em;
+  text-transform:uppercase;text-decoration:none;
+  padding:14px 28px;
+  border:1px solid var(--line);
+  color:var(--text);
+  display:flex;align-items:center;gap:10px;
+  transition:border-color .2s,color .2s,background .2s;
+}
+.contact-link:hover{
+  border-color:var(--amber);color:var(--amber);
+  background:rgba(255,171,0,.05);
+}
+.contact-link .ico{font-size:16px;}
+
+/* morse ticker */
+.morse{
+  font-family:var(--font-m);font-size:12px;letter-spacing:.25em;
+  color:rgba(255,171,0,.35);margin-top:48px;
+  overflow:hidden;white-space:nowrap;
+  border-top:1px solid var(--line);padding-top:20px;
+}
+
+/* ── FOOTER ──────────────────────────────────────── */
+footer{
+  text-align:center;padding:28px 56px;
+  font-family:var(--font-m);font-size:11px;letter-spacing:.14em;
+  color:rgba(255,255,255,.18);
+  border-top:1px solid rgba(255,171,0,.08);
+  position:relative;z-index:1;
+}
+
+/* ── SCROLL REVEAL ───────────────────────────────── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+@keyframes fadein{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;}}
+
+/* ── RESPONSIVE ──────────────────────────────────── */
+@media(max-width:900px){
+  nav{padding:20px 24px;}
+  .nav-links{display:none;}
+  #hero,#oscillo,.sec-wrap{padding-left:24px;padding-right:24px;}
+  #about .grid,.skills-grid,.proj-grid{grid-template-columns:1fr;}
+  #about .grid{gap:40px;}
+}
+</style>
+</head>
+<body>
+
+<!-- custom cursor -->
+<div id="cur"><div class="dot"></div><div class="ring"></div></div>
+
+<!-- animated bg canvas -->
+<canvas id="bgc"></canvas>
+
+<!-- ── NAV ─────────────────────────────────────────── -->
+<nav>
+  <a class="nav-logo" href="#hero">ALEX<span>.</span>MERCER</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#exp">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ────────────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-tag">Signal Carrier · RF Systems · Digital Comms</div>
+  <h1 class="hero-name">
+    Alex<br/>
+    <em>Mercer</em>
+  </h1>
+  <div class="hero-title">Communications Engineer</div>
+  <p class="hero-desc">
+    Designing the invisible architecture that connects the world — from satellite uplinks
+    to 5G infrastructure, I engineer reliable, high-throughput communication systems
+    that operate at the edge of physical limits.
+  </p>
+  <div class="hero-btns">
+    <a class="btn-primary" href="#projects">View Projects</a>
+    <a class="btn-ghost"   href="#contact">Open Channel</a>
+  </div>
+
+  <div id="oscillo">
+    <span class="osc-label">SIG &nbsp;LIVE</span>
+    <canvas id="osc-canvas"></canvas>
+    <span class="osc-label">CH-1 &nbsp;· &nbsp;±3.2 dBm</span>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── ABOUT ───────────────────────────────────────── -->
+<section id="about">
+  <div class="sec-wrap">
+    <div class="sec-label"><span class="num">01 /</span> About</div>
+    <div class="grid reveal">
+      <div class="about-text">
+        <h2>Engineering the<br/><span>Signal</span> Behind the World</h2>
+        <p>
+          With over a decade working across defence, telecommunications, and satellite
+          industries, I specialize in end-to-end RF system design — from antenna arrays
+          and link-budget analysis to protocol stack implementation and network optimization.
+        </p>
+        <p>
+          I thrive at the intersection of theoretical electromagnetics and real-world
+          deployment constraints. Every system I build is designed for resilience, spectral
+          efficiency, and long-term maintainability.
+        </p>
+        <p>
+          Currently open to senior and principal engineering roles in 5G/6G R&D,
+          satellite communications, and next-generation wireless infrastructure.
+        </p>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-box"><div class="stat-num">11+</div><div class="stat-desc">Years in RF Engineering</div></div>
+        <div class="stat-box"><div class="stat-num">34</div><div class="stat-desc">Systems Deployed</div></div>
+        <div class="stat-box"><div class="stat-num">6</div><div class="stat-desc">Patents Filed</div></div>
+        <div class="stat-box"><div class="stat-num">3</div><div class="stat-desc">Standards Contributions</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── SKILLS ──────────────────────────────────────── -->
+<section id="skills">
+  <div class="sec-wrap">
+    <div class="sec-label"><span class="num">02 /</span> Capabilities</div>
+    <div class="skills-grid reveal">
+      <div class="skill-group">
+        <h3>RF &amp; Wireless Systems</h3>
+        <div class="skill-item" data-pct="95">
+          <div class="skill-head"><span class="skill-name">Antenna Design &amp; Arrays</span><span class="skill-pct">95%</span></div>
+          <div class="skill-bar"><div class="skill-fill"></div></div>
+        </div>
+        <div class="skill-item" data-pct="92">
+          <div class="skill-head"><span class="skill-name">Link Budget &amp; Propagation</span><span class="skill-pct">92%</span></div>
+          <div class="skill-bar"><div class="skill-fill"></div></div>
+        </div>
+        <div class="skill-item" data-pct="88">
+          <div class="skill-head"><span class="skill-name">MIMO / Beamforming</span><span class="skill-pct">88%</span></div>
+          <div class="skill-bar"><div class="skill-fill"></div></div>
+        </div>
+        <div class="skill-item" data-pct="85">
+          <div class="skill-head"><span class="skill-name">Satellite Link Engineering</span><span class="skill-pct">85%</span></div>
+          <div class="skill-bar"><div class="skill-fill"></div></div>
+        </div>
+        <div class="skill-item" data-pct="90">
+          <div class="skill-head"><span class="skill-name">EMC / EMI Analysis</span><span class="skill-pct">90%</span></div>
+          <div class="skill-bar"><div class="skill-fill"></div></div>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Digital &amp; Protocol</h3>
+        <div class="skill-item" data-pct="93">
+          <div class="skill-head"><span class="skill-name">5G NR / LTE Stack</span><span class="skill-pct">93%</span></div>
+          <div class="skill-bar"><div class="skill-fill"></div></div>
+        </div>
+        <div class="skill-item" data-pct="87">
+          <div class="skill-head"><span class="skill-name">SDR &amp; FPGA DSP</span><span class="skill-pct">87%</span></div>
+          <div class="skill-bar"><div class="skill-fill"></div></div>
+        </div>
+        <div class="skill-item" data-pct="80">
+          <div class="skill-head"><span class="skill-name">Network Simulation (NS-3)</span><span class="skill-pct">80%</span></div>
+          <div class="skill-bar"><div class="skill-fill"></div></div>
+        </div>
+        <div class="skill-item" data-pct="85">
+          <div class="skill-head"><span class="skill-name">Python / MATLAB / C++</span><span class="skill-pct">85%</span></div>
+          <div class="skill-bar"><div class="skill-fill"></div></div>
+        </div>
+        <div class="skill-item" data-pct="78">
+          <div class="skill-head"><span class="skill-name">Cryptographic Protocols</span><span class="skill-pct">78%</span></div>
+          <div class="skill-bar"><div class="skill-fill"></div></div>
+        </div>
+
+        <!-- Spectrum visualizer -->
+        <div class="spectrum" id="spectrum"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── PROJECTS ─────────────────────────────────────── -->
+<section id="projects">
+  <div class="sec-wrap">
+    <div class="sec-label"><span class="num">03 /</span> Projects</div>
+    <div class="proj-grid reveal">
+      <div class="proj-card">
+        <div class="proj-freq">TX · 28.4 GHz · Active</div>
+        <div class="proj-name">Phased-Array mmWave Base Station</div>
+        <p class="proj-desc">Designed a 256-element mmWave phased-array antenna system for dense urban 5G deployment, achieving 28 dBi gain with ±60° beam steering and &lt;2° beam resolution.</p>
+        <div class="proj-tags">
+          <span class="tag">mmWave</span><span class="tag">Beamforming</span><span class="tag">5G NR</span>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-freq">TX · 14.25 GHz · Complete</div>
+        <div class="proj-name">Ku-Band Satellite Uplink System</div>
+        <p class="proj-desc">Full link-budget design and deployment of a maritime VSAT terminal, sustaining 50 Mbps throughput under adverse sea-state conditions with adaptive power control.</p>
+        <div class="proj-tags">
+          <span class="tag">Ku-Band</span><span class="tag">VSAT</span><span class="tag">Maritime</span>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-freq">RX · 433 MHz · R&amp;D</div>
+        <div class="proj-name">Mesh Network Protocol Stack</div>
+        <p class="proj-desc">Developed a low-latency, fault-tolerant mesh protocol for industrial IoT over 433 MHz ISM band, supporting 500+ nodes with sub-10ms end-to-end latency.</p>
+        <div class="proj-tags">
+          <span class="tag">Mesh</span><span class="tag">IoT</span><span class="tag">ISM Band</span>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-freq">TX/RX · 2.4–6 GHz · Deployed</div>
+        <div class="proj-name">Cognitive Radio Interference Mitigation</div>
+        <p class="proj-desc">ML-driven spectrum sensing system that identifies and avoids primary user interference in real time, improving coexistence in dense Wi-Fi/LTE environments by 40%.</p>
+        <div class="proj-tags">
+          <span class="tag">Cognitive Radio</span><span class="tag">SDR</span><span class="tag">ML</span>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-freq">TX · 1.575 GHz · Production</div>
+        <div class="proj-name">Multi-Constellation GNSS Receiver</div>
+        <p class="proj-desc">High-precision GNSS front-end with anti-spoofing and anti-jamming capability, achieving &lt;30 cm CEP accuracy in urban canyon environments using multi-path mitigation.</p>
+        <div class="proj-tags">
+          <span class="tag">GPS/GNSS</span><span class="tag">L1/L2</span><span class="tag">FPGA</span>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-freq">TX · 77 GHz · Testing</div>
+        <div class="proj-name">Automotive FMCW Radar Module</div>
+        <p class="proj-desc">Designed a compact 77 GHz FMCW radar for ADAS applications, supporting simultaneous range/velocity detection of 32 targets with 4 cm range resolution.</p>
+        <div class="proj-tags">
+          <span class="tag">FMCW Radar</span><span class="tag">ADAS</span><span class="tag">77 GHz</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── EXPERIENCE ──────────────────────────────────── -->
+<section id="exp">
+  <div class="sec-wrap">
+    <div class="sec-label"><span class="num">04 /</span> Experience</div>
+    <div class="timeline reveal">
+      <div class="tl-item">
+        <div class="tl-date">2022 — Present</div>
+        <div class="tl-role">Principal RF Systems Engineer</div>
+        <div class="tl-company">Orion Wireless Technologies · Dubai, UAE</div>
+        <p class="tl-desc">Leading the mmWave 5G antenna systems division, overseeing a team of 12 engineers. Responsible for full design lifecycle from concept to field deployment across GCC markets.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2018 — 2022</div>
+        <div class="tl-role">Senior Communications Engineer</div>
+        <div class="tl-company">SkyBridge Satellite Systems · London, UK</div>
+        <p class="tl-desc">Engineered Ku and Ka-band satellite communication terminals for maritime and aeronautical platforms. Developed adaptive power control algorithms reducing interference by 35%.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2015 — 2018</div>
+        <div class="tl-role">RF Design Engineer</div>
+        <div class="tl-company">Meridian Defence Systems · Bristol, UK</div>
+        <p class="tl-desc">Designed secure tactical communication systems operating across HF, VHF, and UHF bands. Implemented FHSS and DSSS spreading techniques for anti-jamming communications.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2013 — 2015</div>
+        <div class="tl-role">Graduate Engineer</div>
+        <div class="tl-company">TeleForce Group · Manchester, UK</div>
+        <p class="tl-desc">Carried out RF propagation modelling for LTE network rollouts and supported antenna site surveys across the northern England region.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── CONTACT ─────────────────────────────────────── -->
+<section id="contact">
+  <div class="sec-wrap">
+    <div class="sec-label"><span class="num">05 /</span> Contact</div>
+    <div class="reveal">
+      <div class="contact-head">Let's Build the<br/><span>Next Link</span></div>
+      <p class="contact-sub">
+        Whether you need an RF consultant, a senior engineer, or a technical co-founder —
+        the channel is open. Typical response time: &lt;12 hours.
+      </p>
+      <div class="contact-grid">
+        <a class="contact-link" href="mailto:alex@mercerrf.com"><span class="ico">✉</span> alex@mercerrf.com</a>
+        <a class="contact-link" href="#"><span class="ico">in</span> LinkedIn</a>
+        <a class="contact-link" href="#"><span class="ico">gh</span> GitHub</a>
+        <a class="contact-link" href="#"><span class="ico">↓</span> Download CV</a>
+      </div>
+      <div class="morse" id="morse-ticker">
+        ·–· · .- -.. ·–· &nbsp;·&nbsp;
+        — ·—· .- -. ··· — &nbsp;·&nbsp;
+        · · · ·–·· .·–· .- -. · &nbsp;·&nbsp;
+        –·– ·–·· ·–– ·–· ·–·· ·–– · – &nbsp;·&nbsp;
+        ·–·· ·–– ·–– ·–· ·–– — ·–·· ·–– ·–·· ·–– ·–·
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2025 Alex Mercer · Communications Engineer · All systems nominal.
+</footer>
+
+<script>
+/* ───────────────── CURSOR ───────────────── */
+const cur = document.getElementById('cur');
+let mx=0,my=0;
+window.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+});
+
+/* ───────────────── BACKGROUND CANVAS ───── */
+(()=>{
+  const c   = document.getElementById('bgc');
+  const ctx = c.getContext('2d');
+  let W, H, frame = 0;
+
+  function resize() {
+    W = c.width  = window.innerWidth;
+    H = c.height = window.innerHeight;
+    buildStars();
+    buildHex();
+  }
+  window.addEventListener('resize', resize);
+
+  /* ── STARS ─────────────────────────────── */
+  let stars = [];
+  function buildStars() {
+    stars = Array.from({length: 220}, () => ({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 1.1,
+      phase: Math.random() * Math.PI * 2,
+      speed: 0.008 + Math.random() * 0.018,
+    }));
+  }
+
+  /* ── HEX GRID ──────────────────────────── */
+  let hexPts = [];
+  function buildHex() {
+    hexPts = [];
+    const S = 52, W2 = S * Math.sqrt(3), H2 = S * 1.5;
+    for (let row = -1; row < H / H2 + 2; row++) {
+      for (let col = -1; col < W / W2 + 2; col++) {
+        const ox = (row % 2) * (W2 / 2);
+        const cx = col * W2 + ox, cy = row * H2;
+        hexPts.push({cx, cy, s: S});
+      }
+    }
+  }
+
+  function drawHex() {
+    ctx.strokeStyle = 'rgba(255,171,0,0.028)';
+    ctx.lineWidth = .6;
+    hexPts.forEach(({cx, cy, s}) => {
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) {
+        const a = Math.PI / 180 * (60 * i - 30);
+        const px = cx + s * Math.cos(a), py = cy + s * Math.sin(a);
+        i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+      }
+      ctx.closePath(); ctx.stroke();
+    });
+  }
+
+  /* ── RADAR STATIONS ────────────────────── */
+  const TOWER_DEF = [
+    {fx:.10, fy:.20}, {fx:.82, fy:.12}, {fx:.55, fy:.72},
+    {fx:.28, fy:.85}, {fx:.90, fy:.68}, {fx:.48, fy:.35},
+  ];
+  let towers = [];
+  function buildTowers() {
+    towers = TOWER_DEF.map(t => ({
+      x: t.fx * W, y: t.fy * H,
+      angle: Math.random() * Math.PI * 2,
+      speed: 0.004 + Math.random() * 0.006,
+      sweepLen: Math.PI * 0.55,
+      radius: 120 + Math.random() * 80,
+      color: Math.random() < 0.35 ? '0,184,255' : '255,171,0',
+      rings: [{r:0, a:1}],
+      ringTimer: 0,
+    }));
+  }
+
+  function drawTowers() {
+    towers.forEach(t => {
+      t.angle += t.speed;
+      t.ringTimer++;
+      if (t.ringTimer > 90) { t.rings.push({r:0,a:.8}); t.ringTimer=0; }
+
+      /* Radar sweep fill */
+      ctx.save();
+      ctx.translate(t.x, t.y);
+      const sweepGrad = ctx.createConicalGradient
+        ? null : null; // fallback below
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.arc(0, 0, t.radius, t.angle - t.sweepLen, t.angle);
+      ctx.closePath();
+      const grd = ctx.createRadialGradient(0,0,0,0,0,t.radius);
+      grd.addColorStop(0, `rgba(${t.color},0.10)`);
+      grd.addColorStop(1, `rgba(${t.color},0.01)`);
+      ctx.fillStyle = grd;
+      ctx.fill();
+
+      /* Sweep leading edge */
+      ctx.beginPath();
+      ctx.moveTo(0,0);
+      ctx.lineTo(Math.cos(t.angle)*t.radius, Math.sin(t.angle)*t.radius);
+      ctx.strokeStyle = `rgba(${t.color},0.55)`;
+      ctx.lineWidth = 1.2;
+      ctx.shadowBlur = 8; ctx.shadowColor = `rgba(${t.color},0.5)`;
+      ctx.stroke(); ctx.shadowBlur = 0;
+      ctx.restore();
+
+      /* Expanding rings */
+      t.rings.forEach(rg => { rg.r += 0.9; rg.a -= 0.008; });
+      t.rings = t.rings.filter(rg => rg.a > 0);
+      t.rings.forEach(rg => {
+        ctx.beginPath();
+        ctx.arc(t.x, t.y, rg.r, 0, Math.PI*2);
+        ctx.strokeStyle = `rgba(${t.color},${rg.a * 0.18})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      });
+
+      /* Tower dot */
+      ctx.beginPath();
+      ctx.arc(t.x, t.y, 3, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(${t.color},0.9)`;
+      ctx.shadowBlur = 10; ctx.shadowColor = `rgba(${t.color},0.8)`;
+      ctx.fill(); ctx.shadowBlur = 0;
+
+      /* Tower crosshair */
+      ctx.strokeStyle = `rgba(${t.color},0.3)`;
+      ctx.lineWidth = .5;
+      [[1,0],[-1,0],[0,1],[0,-1]].forEach(([dx,dy]) => {
+        ctx.beginPath();
+        ctx.moveTo(t.x+dx*6,t.y+dy*6);
+        ctx.lineTo(t.x+dx*14,t.y+dy*14);
+        ctx.stroke();
+      });
+    });
+  }
+
+  /* ── SATELLITE ARCS ────────────────────── */
+  const SATS = [
+    {t:0,speed:.0018,h:.18,color:'0,184,255'},
+    {t:.4,speed:.0011,h:.08,color:'255,171,0'},
+    {t:.7,speed:.0025,h:.28,color:'0,184,255'},
+  ];
+
+  function drawSatellites() {
+    SATS.forEach(s => {
+      s.t = (s.t + s.speed) % 1;
+      const x = s.t * W;
+      /* parabolic arc */
+      const peakY = H * s.h;
+      const baseY = -40;
+      const frac  = 4 * s.t * (1 - s.t);
+      const y     = baseY + frac * (peakY - baseY);
+
+      /* trail */
+      const TRAIL = 80;
+      for (let i = 0; i < TRAIL; i++) {
+        const tp = s.t - (i / TRAIL) * 0.12;
+        if (tp < 0) continue;
+        const xt = tp * W;
+        const ft = 4 * tp * (1 - tp);
+        const yt = baseY + ft * (peakY - baseY);
+        const a  = (1 - i / TRAIL) * 0.35;
+        ctx.beginPath();
+        ctx.arc(xt, yt, .8, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(${s.color},${a})`;
+        ctx.fill();
+      }
+
+      /* satellite body */
+      ctx.beginPath();
+      ctx.arc(x, y, 3, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(${s.color},1)`;
+      ctx.shadowBlur = 12; ctx.shadowColor = `rgba(${s.color},.8)`;
+      ctx.fill(); ctx.shadowBlur = 0;
+
+      /* signal beam to nearest tower */
+      let nearest = null, nd = Infinity;
+      towers.forEach(t => {
+        const d = Math.hypot(t.x - x, t.y - y);
+        if (d < nd) { nd = d; nearest = t; }
+      });
+      if (nearest && nd < 420) {
+        const lineAlpha = (1 - nd/420) * 0.22;
+        ctx.beginPath();
+        ctx.moveTo(x, y); ctx.lineTo(nearest.x, nearest.y);
+        ctx.strokeStyle = `rgba(${s.color},${lineAlpha})`;
+        ctx.setLineDash([4, 8]); ctx.lineWidth = .8;
+        ctx.stroke(); ctx.setLineDash([]);
+      }
+    });
+  }
+
+  /* ── NODES ─────────────────────────────── */
+  const N = 80;
+  const nodes = Array.from({length: N}, () => ({
+    x: 0, y: 0, vx:0, vy:0, r:0, phase:0, lit: 0,
+  }));
+  function buildNodes() {
+    nodes.forEach(n => {
+      n.x = Math.random() * W; n.y = Math.random() * H;
+      n.vx = (Math.random()-.5)*.38; n.vy = (Math.random()-.5)*.38;
+      n.r  = 1.4 + Math.random() * 2.2;
+      n.phase = Math.random() * Math.PI * 2;
+      n.lit = 0;
+    });
+  }
+
+  /* ── SIGNAL PULSES (data packets on edges) */
+  const pulses = [];
+  let pulseSpawn = 0;
+
+  function spawnPulse() {
+    /* pick a random valid edge */
+    const MAXD = 145;
+    let tries = 0;
+    while (tries++ < 20) {
+      const i = Math.floor(Math.random() * N);
+      const j = Math.floor(Math.random() * N);
+      if (i === j) continue;
+      const dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
+      const d  = Math.sqrt(dx*dx+dy*dy);
+      if (d > MAXD) continue;
+      pulses.push({ ni:i, nj:j, t:0, speed:.008+Math.random()*.012,
+                    col: Math.random()<.3 ? '0,184,255' : '255,171,0' });
+      break;
+    }
+  }
+
+  function drawEdgesAndPulses() {
+    const MAXD = 145;
+    /* edges */
+    for (let i=0;i<N;i++) {
+      for (let j=i+1;j<N;j++) {
+        const a=nodes[i], b=nodes[j];
+        const dx=a.x-b.x, dy=a.y-b.y, d2=dx*dx+dy*dy;
+        if (d2 > MAXD*MAXD) continue;
+        const t = 1 - Math.sqrt(d2)/MAXD;
+        const bright = Math.max(a.lit, b.lit);
+        ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
+        ctx.strokeStyle = `rgba(255,171,0,${t*(0.12+bright*0.18)})`;
+        ctx.lineWidth = .55 + bright*.5;
+        ctx.stroke();
+      }
+    }
+    /* pulses */
+    for (let i = pulses.length-1; i>=0; i--) {
+      const p = pulses[i];
+      p.t += p.speed;
+      if (p.t >= 1) { pulses.splice(i,1); continue; }
+      const a = nodes[p.ni], b = nodes[p.nj];
+      /* check edge still valid */
+      const dx=a.x-b.x,dy=a.y-b.y;
+      if (dx*dx+dy*dy > MAXD*MAXD*1.3) { pulses.splice(i,1); continue; }
+      const px = a.x + (b.x-a.x)*p.t;
+      const py = a.y + (b.y-a.y)*p.t;
+
+      /* glow trail */
+      for (let k=0;k<6;k++) {
+        const kt = Math.max(0, p.t - k*.015);
+        const kx = a.x+(b.x-a.x)*kt, ky = a.y+(b.y-a.y)*kt;
+        ctx.beginPath(); ctx.arc(kx,ky,2.5-k*.35,0,Math.PI*2);
+        ctx.fillStyle = `rgba(${p.col},${(1-k/6)*.55})`;
+        ctx.fill();
+      }
+      /* head */
+      ctx.beginPath(); ctx.arc(px,py,2.8,0,Math.PI*2);
+      ctx.fillStyle = `rgba(${p.col},1)`;
+      ctx.shadowBlur = 10; ctx.shadowColor = `rgba(${p.col},.9)`;
+      ctx.fill(); ctx.shadowBlur = 0;
+
+      /* light up receiving node briefly */
+      nodes[p.nj].lit = Math.min(1, nodes[p.nj].lit + .04);
+    }
+  }
+
+  function drawNodes() {
+    nodes.forEach(n => {
+      n.lit = Math.max(0, n.lit - .015);
+      const col = n.lit > .1 ? '0,184,255' : '255,171,0';
+      const glow = ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r*5);
+      glow.addColorStop(0,`rgba(${col},${0.18 + n.lit*.25})`);
+      glow.addColorStop(1,`rgba(${col},0)`);
+      ctx.beginPath(); ctx.arc(n.x,n.y,n.r*5,0,Math.PI*2);
+      ctx.fillStyle = glow; ctx.fill();
+
+      const pulse = Math.sin(n.phase) * .6;
+      ctx.beginPath(); ctx.arc(n.x,n.y,n.r+pulse,0,Math.PI*2);
+      ctx.fillStyle = `rgba(${col},${0.7+n.lit*.3})`;
+      ctx.shadowBlur = 5+n.lit*8; ctx.shadowColor = `rgba(${col},.8)`;
+      ctx.fill(); ctx.shadowBlur = 0;
+    });
+  }
+
+  /* ── CURSOR DISTORTION FIELD ─────────────── */
+  function applyCursor() {
+    const REPEL = 90, PULL = 200;
+    nodes.forEach(n => {
+      n.phase += .016;
+      const dx=n.x-mx, dy=n.y-my, d=Math.sqrt(dx*dx+dy*dy);
+      if (d > 0 && d < REPEL) {
+        const f = .18*(1-d/REPEL);
+        n.vx += (dx/d)*f; n.vy += (dy/d)*f;
+      } else if (d > 0 && d < PULL) {
+        const f = .006*(1-d/PULL);
+        n.vx -= (dx/d)*f; n.vy -= (dy/d)*f;
+      }
+      n.vx *= .976; n.vy *= .976;
+      n.x += n.vx; n.y += n.vy;
+      if (n.x<0||n.x>W) n.vx*=-1;
+      if (n.y<0||n.y>H) n.vy*=-1;
+    });
+
+    /* cursor glow field */
+    if (mx > 0) {
+      const rg = ctx.createRadialGradient(mx,my,0,mx,my,REPEL*1.4);
+      rg.addColorStop(0,'rgba(255,171,0,0.06)');
+      rg.addColorStop(1,'rgba(255,171,0,0)');
+      ctx.beginPath(); ctx.arc(mx,my,REPEL*1.4,0,Math.PI*2);
+      ctx.fillStyle = rg; ctx.fill();
+    }
+  }
+
+  /* ── CLICK RINGS ───────────────────────── */
+  const clickRings = [];
+  window.addEventListener('click', e => {
+    for (let i=0;i<3;i++)
+      clickRings.push({x:e.clientX,y:e.clientY,r:0,a:.8,delay:i*8});
+  });
+
+  function drawClickRings() {
+    for (let i=clickRings.length-1;i>=0;i--) {
+      const r=clickRings[i];
+      if (r.delay > 0) { r.delay--; continue; }
+      r.r += 3.5; r.a -= .016;
+      if (r.a<=0){clickRings.splice(i,1);continue;}
+      ctx.beginPath(); ctx.arc(r.x,r.y,r.r,0,Math.PI*2);
+      ctx.strokeStyle=`rgba(255,171,0,${r.a})`; ctx.lineWidth=1.4; ctx.stroke();
+    }
+  }
+
+  /* ── HORIZON GLOW ──────────────────────── */
+  function drawHorizon() {
+    const grad = ctx.createLinearGradient(0, H*.6, 0, H);
+    grad.addColorStop(0,'rgba(255,100,0,0)');
+    grad.addColorStop(1,'rgba(255,80,0,0.055)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, H*.6, W, H*.4);
+  }
+
+  /* ── MAIN LOOP ─────────────────────────── */
+  function tick() {
+    requestAnimationFrame(tick);
+    frame++;
+    ctx.clearRect(0,0,W,H);
+
+    /* Layer 1: stars */
+    stars.forEach(s => {
+      s.phase += s.speed;
+      const a = 0.15 + Math.sin(s.phase) * 0.12;
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(200,220,255,${a})`; ctx.fill();
+    });
+
+    /* Layer 2: hex grid */
+    drawHex();
+
+    /* Layer 3: horizon glow */
+    drawHorizon();
+
+    /* Layer 4: satellite arcs */
+    drawSatellites();
+
+    /* Layer 5: radar stations */
+    drawTowers();
+
+    /* Layer 6: cursor physics */
+    applyCursor();
+
+    /* Layer 7: edges + pulses */
+    drawEdgesAndPulses();
+
+    /* Layer 8: nodes */
+    drawNodes();
+
+    /* Layer 9: click rings */
+    drawClickRings();
+
+    /* Spawn a signal pulse periodically */
+    pulseSpawn++;
+    if (pulseSpawn > 18) { spawnPulse(); pulseSpawn=0; }
+  }
+
+  resize();
+  buildTowers();
+  buildNodes();
+  tick();
+})();
+
+/* ───────────────── OSCILLOSCOPE ─────────── */
+(()=>{
+  const c=document.getElementById('osc-canvas');
+  const ctx=c.getContext('2d');
+  let t=0;
+
+  function resize(){c.width=c.parentElement.clientWidth-180;c.height=52;}
+  window.addEventListener('resize',resize);resize();
+
+  function tick(){
+    requestAnimationFrame(tick);
+    ctx.clearRect(0,0,c.width,c.height);
+
+    /* grid */
+    ctx.strokeStyle='rgba(255,171,0,0.06)';
+    ctx.lineWidth=.5;
+    for(let x=0;x<c.width;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,c.height);ctx.stroke();}
+    ctx.beginPath();ctx.moveTo(0,c.height/2);ctx.lineTo(c.width,c.height/2);ctx.stroke();
+
+    /* waveform — composite signal */
+    ctx.beginPath();
+    const H=c.height,W=c.width;
+    for(let x=0;x<W;x++){
+      const p=x/W;
+      const s=Math.sin((p+t)*Math.PI*12)*14
+             +Math.sin((p+t)*Math.PI*5.3+1)*6
+             +Math.sin((p+t)*Math.PI*28)*3;
+      const y=H/2-s;
+      x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.strokeStyle='rgba(255,171,0,0.85)';
+    ctx.lineWidth=1.2;
+    ctx.shadowBlur=6;ctx.shadowColor='rgba(255,171,0,.5)';
+    ctx.stroke();ctx.shadowBlur=0;
+    t+=.0045;
+  }
+  tick();
+})();
+
+/* ───────────────── SPECTRUM BARS ────────── */
+(()=>{
+  const container=document.getElementById('spectrum');
+  const BARS=32;
+  const els=[];
+  for(let i=0;i<BARS;i++){
+    const d=document.createElement('div');
+    d.className='spec-bar';
+    d.style.animationDelay=(i*.06)+'s';
+    d.style.animationDuration=(1.4+Math.random()*.8)+'s';
+    container.appendChild(d);
+    els.push(d);
+  }
+  function animate(){
+    els.forEach(el=>{
+      const h=8+Math.random()*72;
+      el.style.height=h+'px';
+    });
+    setTimeout(animate,200+Math.random()*150);
+  }
+  animate();
+})();
+
+/* ───────────────── SKILL BARS ON SCROLL ─── */
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting){
+      en.target.classList.add('in');
+      en.target.querySelectorAll('.skill-item').forEach(item=>{
+        const pct=item.dataset.pct||'0';
+        item.querySelector('.skill-fill').style.width=pct+'%';
+      });
+    }
+  });
+},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+/* ───────────────── MORSE TICKER ─────────── */
+(()=>{
+  const el=document.getElementById('morse-ticker');
+  let off=0;
+  function tick(){
+    el.style.transform=`translateX(-${off}px)`;
+    off+=.5;
+    if(off>el.scrollWidth/2)off=0;
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+</script>
+</body>
+</html>
