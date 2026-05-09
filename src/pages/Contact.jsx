@@ -143,7 +143,7 @@ export default function Contact() {
               {/* CLOUDFLARE TURNSTILE */}
               <div className="flex justify-center">
                 <Turnstile 
-                  siteKey="1x00000000000000000000AA" // DEFAULT TESTING KEY
+                  siteKey="0x4AAAAAADMMHIjw5nlUzSyt" // PRODUCTION KEY
                   onSuccess={() => setIsVerified(true)}
                   onExpire={() => setIsVerified(false)}
                   theme="dark"
