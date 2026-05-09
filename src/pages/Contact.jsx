@@ -11,6 +11,7 @@ export default function Contact() {
 
   const [status, setStatus] = useState('idle'); // idle, sending, success, error
   const [isVerified, setIsVerified] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(entries => {
@@ -43,7 +44,11 @@ export default function Contact() {
 
   const sendEmail = (e) => {
     e.preventDefault();
-    if (!isVerified) return;
+    if (!isVerified) {
+      setShowWarning(true);
+      return;
+    }
+    setShowWarning(false);
     setStatus('sending');
 
     emailjs.sendForm('service_ieu97zi', 'template_7j064os', formRef.current, '-87vzblhTYfYwjK9P')
@@ -144,15 +149,23 @@ export default function Contact() {
               <div className="flex justify-center">
                 <Turnstile 
                   siteKey="0x4AAAAAADMMHIjw5nlUzSyt" // PRODUCTION KEY
-                  onSuccess={() => setIsVerified(true)}
+                  onSuccess={() => { setIsVerified(true); setShowWarning(false); }}
                   onExpire={() => setIsVerified(false)}
                   theme="dark"
+                  appearance="always"
                 />
               </div>
 
+              {/* WARNING MESSAGE */}
+              {showWarning && !isVerified && (
+                <div className="flex items-center gap-2 text-red-500 text-[10px] font-mono uppercase tracking-widest mb-4 justify-center animate-pulse">
+                  <AlertCircle size={14} /> SECURITY_HANDSHAKE_REQUIRED: PLEASE_VERIFY_IDENTITY
+                </div>
+              )}
+
               <button
                 type="submit"
-                disabled={status === 'sending' || !isVerified}
+                disabled={status === 'sending'}
                 className="w-full bg-red-500 text-black font-bold py-4 hover:bg-red-400 transition-all flex items-center justify-center gap-3 uppercase tracking-widest text-xs disabled:opacity-20 disabled:cursor-not-allowed"
               >
                 {status === 'sending' ? 'TRANSMITTING...' : (
