@@ -14,20 +14,9 @@ export default function Navbar() {
   const [isGlitching, setIsGlitching] = useState(false);
   const { isDark, toggleTheme } = useTheme();
 
-  const handleLogoClick = (e) => {
+  const handleLogoClick = () => {
     setIsGlitching(true);
     setTimeout(() => setIsGlitching(false), 500);
-
-    // Secret Handshake: Alt + Click triggers access check
-    if (e.altKey) {
-      const pin = prompt("ACCESS_REQUIRED: ENTER_KEY");
-      if (pin === "2026") { // Set your own PIN here
-        localStorage.setItem('TR_ADMIN_AUTH', 'true');
-        window.location.href = "/TarekRehan/admin";
-      } else {
-        localStorage.removeItem('TR_ADMIN_AUTH');
-      }
-    }
   };
 
   return (
