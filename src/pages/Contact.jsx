@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { usePortfolioData } from '../context/DataContext';
 import emailjs from '@emailjs/browser';
-import { Send, CheckCircle, AlertCircle, Linkedin, Github, MessageSquare, Mail, Download } from 'lucide-react';
+import { Send, CheckCircle, AlertCircle, Linkedin, Github, MessageSquare, Mail, Download, Share2 } from 'lucide-react';
 import { Turnstile } from '@marsidev/react-turnstile';
 
 export default function Contact() {
@@ -69,7 +69,7 @@ export default function Contact() {
       <div className="sec-wrap">
         <div className="sec-label"><span className="num">05 /</span> Contact</div>
 
-        <div className="grid md:grid-cols-2 gap-12 reveal">
+        <div className="grid md:grid-cols-2 gap-12">
 
           {/* Left Side: Info & Links */}
           <div className="space-y-8">
@@ -80,23 +80,25 @@ export default function Contact() {
               </p>
             </div>
 
-            <div className="contact-grid">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {data.profile.email && (
                 <a className="contact-link" href={`mailto:${data.profile.email}`}>
-                  <span className="ico"><Mail size={16} /></span> {data.profile.email}
+                  <span className="ico"><Mail size={16} /></span> 
+                  <span className="truncate">{data.profile.email}</span>
                 </a>
               )}
 
-              {Object.entries(social).map(([key, value]) => {
-                if (!value) return null;
-                let ico = <MessageSquare size={16} />;
-                if (key.toLowerCase() === 'linkedin') ico = <Linkedin size={16} />;
-                if (key.toLowerCase() === 'github') ico = <Github size={16} />;
-                if (key.toLowerCase() === 'whatsapp') ico = <MessageSquare size={16} />;
+              {/* Simplified direct rendering from data.social */}
+              {Object.entries(data.social || {}).map(([key, value]) => {
+                if (key === 'email') return null;
+                
+                const label = key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+                const href = value ? (value.startsWith('http') ? value : `https://${value}`) : '#';
 
                 return (
-                  <a key={key} className="contact-link" href={value} target="_blank" rel="noopener noreferrer">
-                    <span className="ico">{ico}</span> {key.charAt(0).toUpperCase() + key.slice(1)}
+                  <a key={key} className="contact-link" href={href} target="_blank" rel="noopener noreferrer">
+                    <span className="ico"><Share2 size={16} /></span> 
+                    <span className="truncate">{label}</span>
                   </a>
                 );
               })}

@@ -52,15 +52,15 @@ export default function LoadingScreen() {
                 TAREK REHAN
               </h1>
               
-              <div className="mt-16 flex flex-col items-center">
-                <div className="w-80 h-[1px] bg-white/5 relative overflow-hidden">
+              <div className="mt-16 flex flex-col items-center px-6 w-full">
+                <div className="w-full max-w-[320px] h-[1px] bg-white/5 relative overflow-hidden">
                   <motion.div 
                     initial={{ width: 0 }}
                     animate={{ width: `${progress}%` }}
                     className="absolute top-0 left-0 h-full bg-red-500 shadow-[0_0_25px_#ff3e3e]"
                   />
                 </div>
-                <div className="mt-8 font-mono text-[8px] text-white/20 uppercase tracking-[0.8em] flex items-center gap-4">
+                <div className="mt-8 font-mono text-[7px] md:text-[8px] text-white/20 uppercase tracking-[0.4em] md:tracking-[0.8em] flex flex-col md:flex-row items-center gap-2 md:gap-4 text-center">
                   <span className="text-red-500/60">ESTABLISHING_STABLE_LINK</span>
                   <span className="font-bold text-red-500/80">{Math.round(progress)}%</span>
                 </div>

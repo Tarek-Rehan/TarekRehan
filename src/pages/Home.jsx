@@ -85,16 +85,16 @@ export default function Home() {
 
   return (
     <section id="hero">
-      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', gap: '40px' }}>
+      <div className="hero-container">
         
         {/* Left Side: Text */}
-        <div style={{ flex: 1 }}>
+        <div className="hero-content">
           <div className="hero-tag">{profile.tagline || 'Signal Carrier · RF Systems · Digital Comms'}</div>
           <h1 className="hero-name">
             {firstName}<br/>
             <em>{lastName}</em>
           </h1>
-          <div className="hero-title" style={{ height: '40px' }}>
+          <div className="hero-title">
             <Typewriter phrases={phrases} />
           </div>
           <p className="hero-desc">{profile.bio}</p>
@@ -107,18 +107,19 @@ export default function Home() {
 
         {/* Right Side: Image */}
         {profile.photo && (
-          <div style={{ flexShrink: 0, display: 'flex', justifyContent: 'flex-end', animation: 'fadein 1s .2s ease both' }}>
+          <div className="hero-image-wrap">
+            <div className="image-accent-ring" />
             <img 
               src={profile.photo} 
               alt="Profile" 
-              style={{ width: '320px', height: '320px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--amber)', boxShadow: '0 0 25px rgba(255,62,62,0.3)' }}
+              className="hero-image"
             />
           </div>
         )}
       </div>
 
       <div id="oscillo">
-        <span className="osc-label">SIG &nbsp;LIVE</span>
+        <span className="osc-label hidden md:block">SIG &nbsp;LIVE</span>
         <canvas id="osc-canvas" ref={canvasRef}></canvas>
         <span className="osc-label">CH-1 &nbsp;· &nbsp;±3.2 dBm</span>
       </div>

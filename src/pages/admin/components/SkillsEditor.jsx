@@ -57,11 +57,14 @@ export default function SkillsEditor() {
   ];
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-2xl font-heading text-red-500 mb-2">Skills Manager</h2>
-          <p className="text-text-muted font-mono text-sm uppercase tracking-wider">Group your technical skills into categories.</p>
+    <div className="space-y-10">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="md:pl-24 flex gap-4">
+          <div className="font-mono text-[10px] text-red-500/40 w-6 text-right pt-2 flex-shrink-0"></div>
+          <div>
+            <h2 className="text-2xl font-heading text-red-500 mb-2">Skills Manager</h2>
+            <p className="text-text-muted font-mono text-sm uppercase tracking-wider">Group your technical skills into categories.</p>
+          </div>
         </div>
         <button
           type="button"

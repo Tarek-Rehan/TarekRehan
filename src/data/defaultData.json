@@ -133,7 +133,7 @@
         },
         {
           "name": "a7a2",
-          "level": 50
+          "level": 80
         },
         {
           "name": "a7a3",
@@ -208,7 +208,7 @@
       "tags": [
         "Personal",
         "IoT",
-        "hhh"
+        "hh"
       ],
       "links": {
         "github": "",
@@ -260,12 +260,10 @@
     }
   ],
   "social": {
-    "linkedin": "https://linkedin.com/in/ASD[KADSPOKDASOKADSADS",
-    "github": "https://github.com/POASDJADSOJDSAPOJADSPOJADSPOKJADS",
     "email": "tarek.rehan@example.com",
-    "whatsapp": "ASDPOJADSIOJDASADS",
-    "asdjadsipojads": "",
-    "adspokjasdpokjdaspoks": ""
+    "https://www.linkedin.com/in/omar-rehan-47b98636a/": "",
+    "google.com": "",
+    "omar-rehan.vercel.app": ""
   },
   "theme": {
     "mode": "dark",

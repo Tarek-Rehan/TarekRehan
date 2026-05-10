@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import defaultData from '../data/defaultData';
+import defaultData from '../data/defaultData.json';
 
 const STORAGE_KEY = 'tarek-portfolio-data';
 
@@ -9,18 +9,16 @@ const DataContext = createContext(null);
  * Loads portfolio data from localStorage, falling back to defaultData.
  */
 function loadData() {
-  // If we are in production, always use the file-based data to ensure 
-  // the live site matches the pushed code instantly.
-  if (import.meta.env.PROD) {
-    return { ...defaultData };
-  }
-
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       const parsed = JSON.parse(stored);
-      // Merge with defaults so new fields are always present
-      return { ...defaultData, ...parsed };
+      // Only merge top-level keys that are missing in parsed to avoid overwriting deletions
+      const merged = { ...defaultData };
+      Object.keys(parsed).forEach(key => {
+        merged[key] = parsed[key];
+      });
+      return merged;
     }
   } catch (err) {
     console.warn('Failed to load portfolio data from localStorage:', err);
@@ -58,9 +56,22 @@ export function DataProvider({ children }) {
     }));
   }, []);
 
-  // Reset all data to defaults
+  // Reset all data to defaults (Hard reset)
   const resetData = useCallback(() => {
-    setData({ ...defaultData });
+    if (window.confirm('This will delete all your custom changes and revert to the original file data. Are you sure?')) {
+      localStorage.removeItem(STORAGE_KEY);
+      setData({ ...defaultData });
+      window.location.reload(); // Refresh to ensure clean state
+    }
+  }, []);
+  // Sync with file (Hard Sync)
+  const syncWithFile = useCallback(() => {
+    setData(() => {
+      localStorage.removeItem(STORAGE_KEY); // Clear cache to be sure
+      return { ...defaultData };
+    });
+    alert('SYSTEM REFRESHED: Loaded directly from defaultData.json file.');
+    window.location.reload();
   }, []);
 
   // Export data as JSON file download
@@ -97,6 +108,7 @@ export function DataProvider({ children }) {
     setData,
     updateSection,
     resetData,
+    syncWithFile,
     exportData,
     importData,
   };
